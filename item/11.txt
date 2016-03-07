@@ -1,0 +1,37 @@
+ 这是用户付款后 支付宝返回的信息
+
+?body=庄朋龙的商城
+
+&buyer_email=admin%40eenot.com    付款用户的支付宝账户
+
+&buyer_id=2088902614757995
+
+&exterface=create_direct_pay_by_user
+
+&is_success=T
+
+&notify_id=RqPnCoPT3K9%252Fvwbh3InUEWJZsVpT3hPrRpWqjmw14JIIBznLP9gntIZDgsJGaeVCYFjx
+
+&notify_time=2016-03-06+21%3A26%3A28
+
+&notify_type=trade_status_sync
+
+&out_trade_no=100000
+
+&payment_type=1
+
+&seller_email=pay%40wxrmall.com    商城收款的支付宝账户
+
+&seller_id=2088121597308617
+
+&subject=2016春装新款白衬衫女韩范百搭中长款长袖纯棉寸衫宽松大码衬衣女
+
+&total_fee=0.01
+
+&trade_no=2016030621001004990254964657
+
+&trade_status=TRADE_SUCCESS
+
+&sign=98f22459022086cd408e800726d685ac
+
+&sign_type=MD5

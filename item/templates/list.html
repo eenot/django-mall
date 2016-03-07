@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}列表页{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb">
+  <li><a href="/">首页</a></li>
+  <li><a href="/item/{{ caturl }}">{{ cat_name }}</a></li>
+  <li class="active">商品列表</li>
+</ol>
+{% endblock %}
+{% block connect %}
+<div class="jumbotron"  style="padding:20px;">
+  <div class="list">
+        <div class="row">
+          {% for item in list %}
+          <div class="col-sm-6 col-md-4" width=25%>
+            <div class="thumbnail">
+              <a href="{% url 'item.views.item_goods' pk=item.pk %}"><img src="{{ item.goods_thumb }}" alt="{{ item.goods_name }}"></a>
+              <div class="caption">
+                <div class="minititle">
+                  <a href="{% url 'item.views.item_goods' pk=item.pk %}">{{ item.goods_name }}</a>
+                </div>
+
+                ¥:<font color="#FF0000" size="16px">{{ item.goods_price|floatformat:"-2"}}</font>元
+                <div style="float:right; padding: 25px 0;">
+                  <a href="#" class="btn btn-default" role="button">收藏</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+</div>
+      <nav>
+        <ul class="pagination">
+          <li>
+            <a href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li>
+            <a href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+  </div>
+{% endblock %}

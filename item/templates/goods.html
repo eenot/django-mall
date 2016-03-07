@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+ {% load static %}
+{% block title %}{{ post.goods_name }}{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb">
+  <li><a href="/">首页</a></li>
+  <li><a href="/item/{{ caturl }}">{{ cat_name }}</a></li>
+  <li class="active">{{ post.goods_name }}</li>
+</ol>
+{% endblock %}
+{% block connect %}
+<div class="jumbotron"  style="padding:20px;">
+<script type="text/javascript" src="{% static 'js/jquery.1.4.2-min.js' %}"></script>
+<div class="clearfix">
+<div class="preview">
+	<div id="vertical" class="bigImg">
+		<img src="{{ post.goods_img }}" width="400" height="400" alt="" id="midimg" />
+		<div style="display:none;" id="winSelector"></div>
+	</div><!--bigImg end-->
+	<div class="smallImg" style="box-sizing: content-box; -webkit-box-sizing:content-box;">
+		<div class="scrollbutton smallImgUp disabled"></div>
+		<div id="imageMenu">
+			<ul>
+				<li id="onlickImg"><img src="{{ post.goods_img }}" width="68" height="68" alt="洋妞"/></li>
+				<li><img src="{% static 'images/small/02.jpg' %}" width="68" height="68" alt="洋妞"/></li>
+				<li><img src="{% static 'images/small/03.jpg' %}" width="68" height="68" alt="洋妞"/></li>
+				<li><img src="{% static 'images/small/04.jpg' %}" width="68" height="68" alt="洋妞"/></li>
+				<li><img src="{% static 'images/small/01.jpg' %}" width="68" height="68" alt="洋妞"/></li>
+				<li><img src="{% static 'images/small/06.jpg' %}" width="68" height="68" alt="洋妞"/></li>
+				<li><img src="{% static 'images/small/04.jpg' %}" width="68" height="68" alt="洋妞"/></li>
+			</ul>
+		</div>
+		<div class="scrollbutton smallImgDown"></div>
+	</div><!--smallImg end-->
+	<div id="bigView" style="display:none;"><img width="800" height="800" alt="" src="" /></div>
+</div>
+
+<div class="goods_right">
+  <div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{ post.goods_name }}</h3>
+  </div>
+  <div class="panel-body2">
+    <p>
+      商品类别：{{ post.cat_id }}
+    </p>
+    <p>
+      促销价：<font color="#FF0000" size="16px">{{ post.goods_price}}</font>元
+    </p>
+    </br>
+    <form name="input" action="/payment/" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="goods_id" value="{{ post.goods_id}}" />
+
+
+    <dl class="tb-prop tm-sale-prop tm-clear ">
+			<dt class="tb-metatit">尺码:</dt>
+				<dd>
+					<ul data-property="尺码" class="tm-clear J_TSaleProp     ">
+             <label><input type="radio" name="size" value="小号" />小号</label>
+             <label><input type="radio" checked="true" name="size" value="中号" />中号</label>
+             <label><input type="radio" name="size" value="大号" />大号</label>
+					</ul>
+				</dd>
+			</dl>
+    </br>
+    </br>
+      <dl class="tb-prop tm-sale-prop tm-clear ">
+  			<dt class="tb-metatit">颜色:</dt>
+  				<dd>
+            <ul data-property="颜色" class="tm-clear J_TSaleProp     ">
+            <label><input type="radio" checked="true" name="color" value="红色" />红色</label>
+            <label><input type="radio" name="color" value="黄色" />黄色</label>
+            <label><input type="radio" name="color" value="绿色" />绿色</label>
+            </ul>
+  				</dd>
+  			</dl>
+      </br>
+      </br>
+      <p>购买数量：
+        <input type="text" name="number" value="1" style="width:30px; height:25px; line-height:20px;"> 个
+      </p>
+    </br>
+
+        <button type="submit" class="btn btn-danger">立即购买</button>
+        <button type="button" class="btn btn-success">加入购物车</button>
+        <a href="#" class="btn btn-large disabled">收藏</a>
+        </br>
+
+      </form>
+  </div>
+
+</div>
+</div>
+</div>
+
+
+
+
+<div class="desc">
+  <div class="panel">
+
+        <div class="goods_desc">
+          {% autoescape off %}
+          {{ post.goods_desc }}
+          {% endautoescape %}
+          <img src="{{ post.goods_img }}" alt="{{ post.goods_name }}" />
+        </div>
+      </div>
+
+</div>
+
+<!--preview end-->
+<script type="text/javascript">
+$(document).ready(function(){
+	// 图片上下滚动
+	var count = $("#imageMenu li").length - 5; /* 显示 6 个 li标签内容 */
+	var interval = $("#imageMenu li:first").width();
+	var curIndex = 0;
+
+	$('.scrollbutton').click(function(){
+		if( $(this).hasClass('disabled') ) return false;
+
+		if ($(this).hasClass('smallImgUp')) --curIndex;
+		else ++curIndex;
+
+		$('.scrollbutton').removeClass('disabled');
+		if (curIndex == 0) $('.smallImgUp').addClass('disabled');
+		if (curIndex == count-1) $('.smallImgDown').addClass('disabled');
+
+		$("#imageMenu ul").stop(false, true).animate({"marginLeft" : -curIndex*interval + "px"}, 600);
+	});
+	// 解决 ie6 select框 问题
+	$.fn.decorateIframe = function(options) {
+        if ($.browser.msie && $.browser.version < 7) {
+            var opts = $.extend({}, $.fn.decorateIframe.defaults, options);
+            $(this).each(function() {
+                var $myThis = $(this);
+                //创建一个IFRAME
+                var divIframe = $("<iframe />");
+                divIframe.attr("id", opts.iframeId);
+                divIframe.css("position", "absolute");
+                divIframe.css("display", "none");
+                divIframe.css("display", "block");
+                divIframe.css("z-index", opts.iframeZIndex);
+                divIframe.css("border");
+                divIframe.css("top", "0");
+                divIframe.css("left", "0");
+                if (opts.width == 0) {
+                    divIframe.css("width", $myThis.width() + parseInt($myThis.css("padding")) * 2 + "px");
+                }
+                if (opts.height == 0) {
+                    divIframe.css("height", $myThis.height() + parseInt($myThis.css("padding")) * 2 + "px");
+                }
+                divIframe.css("filter", "mask(color=#fff)");
+                $myThis.append(divIframe);
+            });
+        }
+    }
+    $.fn.decorateIframe.defaults = {
+        iframeId: "decorateIframe1",
+        iframeZIndex: -1,
+        width: 0,
+        height: 0
+    }
+    //放大镜视窗
+    $("#bigView").decorateIframe();
+    //点击到中图
+    var midChangeHandler = null;
+
+    $("#imageMenu li img").bind("click", function(){
+		if ($(this).attr("id") != "onlickImg") {
+			midChange($(this).attr("src").replace("small", "mid"));
+			$("#imageMenu li").removeAttr("id");
+			$(this).parent().attr("id", "onlickImg");
+		}
+	}).bind("mouseover", function(){
+		if ($(this).attr("id") != "onlickImg") {
+			window.clearTimeout(midChangeHandler);
+			midChange($(this).attr("src").replace("small", "mid"));
+			$(this).css({ "border": "3px solid #959595" });
+		}
+	}).bind("mouseout", function(){
+		if($(this).attr("id") != "onlickImg"){
+			$(this).removeAttr("style");
+			midChangeHandler = window.setTimeout(function(){
+				midChange($("#onlickImg img").attr("src").replace("small", "mid"));
+			}, 1000);
+		}
+	});
+    function midChange(src) {
+        $("#midimg").attr("src", src).load(function() {
+            changeViewImg();
+        });
+    }
+    //大视窗看图
+    function mouseover(e) {
+        if ($("#winSelector").css("display") == "none") {
+            $("#winSelector,#bigView").show();
+        }
+        $("#winSelector").css(fixedPosition(e));
+        e.stopPropagation();
+    }
+    function mouseOut(e) {
+        if ($("#winSelector").css("display") != "none") {
+            $("#winSelector,#bigView").hide();
+        }
+        e.stopPropagation();
+    }
+    $("#midimg").mouseover(mouseover); //中图事件
+    $("#midimg,#winSelector").mousemove(mouseover).mouseout(mouseOut); //选择器事件
+
+    var $divWidth = $("#winSelector").width(); //选择器宽度
+    var $divHeight = $("#winSelector").height(); //选择器高度
+    var $imgWidth = $("#midimg").width(); //中图宽度
+    var $imgHeight = $("#midimg").height(); //中图高度
+    var $viewImgWidth = $viewImgHeight = $height = null; //IE加载后才能得到 大图宽度 大图高度 大图视窗高度
+
+    function changeViewImg() {
+        $("#bigView img").attr("src", $("#midimg").attr("src").replace("mid", "big"));
+    }
+    changeViewImg();
+    $("#bigView").scrollLeft(0).scrollTop(0);
+    function fixedPosition(e) {
+        if (e == null) {
+            return;
+        }
+        var $imgLeft = $("#midimg").offset().left; //中图左边距
+        var $imgTop = $("#midimg").offset().top; //中图上边距
+        X = e.pageX - $imgLeft - $divWidth / 2; //selector顶点坐标 X
+        Y = e.pageY - $imgTop - $divHeight / 2; //selector顶点坐标 Y
+        X = X < 0 ? 0 : X;
+        Y = Y < 0 ? 0 : Y;
+        X = X + $divWidth > $imgWidth ? $imgWidth - $divWidth : X;
+        Y = Y + $divHeight > $imgHeight ? $imgHeight - $divHeight : Y;
+
+        if ($viewImgWidth == null) {
+            $viewImgWidth = $("#bigView img").outerWidth();
+            $viewImgHeight = $("#bigView img").height();
+            if ($viewImgWidth < 200 || $viewImgHeight < 200) {
+                $viewImgWidth = $viewImgHeight = 800;
+            }
+            $height = $divHeight * $viewImgHeight / $imgHeight;
+            $("#bigView").width($divWidth * $viewImgWidth / $imgWidth);
+            $("#bigView").height($height);
+        }
+        var scrollX = X * $viewImgWidth / $imgWidth;
+        var scrollY = Y * $viewImgHeight / $imgHeight;
+        $("#bigView img").css({ "left": scrollX * -1, "top": scrollY * -1 });
+        $("#bigView").css({ "top": 168, "left": $(".preview").offset().left + $(".preview").width() + 15 });
+
+        return { left: X, top: Y };
+    }
+});
+</script>
+</div>
+{% endblock %}
