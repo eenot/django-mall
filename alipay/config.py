@@ -2,15 +2,15 @@
 
 class settings:
   # 安全检验码，以数字和字母组成的32位字符
-  ALIPAY_KEY = 'g19wepfzlzqv0r1uz6f2vyvg6knwzm2c'
+  ALIPAY_KEY = ''
 
   ALIPAY_INPUT_CHARSET = 'utf-8'
 
   # 合作身份者ID，以2088开头的16位纯数字
-  ALIPAY_PARTNER = '2088121597308617'
+  ALIPAY_PARTNER = ''
 
   # 签约支付宝账号或卖家支付宝帐户
-  ALIPAY_SELLER_EMAIL = 'pay@wxrmall.com'
+  ALIPAY_SELLER_EMAIL = ''
 
   ALIPAY_SIGN_TYPE = 'MD5'
 
